@@ -242,16 +242,7 @@ export default async function Home() {
       {/* ── Footer ── */}
       <footer className="border-t border-dark-border px-6 py-8 text-center text-sm text-content-muted">
         <p>
-          © 2025 SpringForge · Research Project 25-26J-451 · SLIIT ·{' '}
-          Powered by{' '}
-          <a
-            href="https://www.anthropic.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-accent hover:underline"
-          >
-            Claude AI
-          </a>
+          © 2026 SpringForge · Research Project 25-26J-451 · SLIIT
         </p>
       </footer>
 
