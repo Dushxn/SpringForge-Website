@@ -161,7 +161,6 @@ features:
         { col1: 'Dockerfile', col2: 'Multi-stage optimised container build tailored to your project' },
         { col1: '.github/workflows/build.yml', col2: 'Complete GitHub Actions CI/CD pipeline with test, build, and deploy stages' },
         { col1: 'docker-compose.yml', col2: 'Multi-service local development stack with detected databases and services' },
-        { col1: 'k8s/deployment.yml', col2: 'Kubernetes Deployment and Service manifests' },
       ],
     },
     subSections: [
@@ -170,7 +169,7 @@ features:
         steps: [
           { num: 1, text: 'Open the SpringForge sidebar → CI/CD tab' },
           { num: 2, text: 'Select your source: Local Project (current open project) or GitHub Repository (enter a URL and pick a branch)' },
-          { num: 3, text: 'Tick the files you want to generate: Dockerfile, GitHub Actions, Docker Compose, Kubernetes Manifests' },
+          { num: 3, text: 'Tick the files you want to generate: Dockerfile, GitHub Actions, Docker Compose' },
           { num: 4, text: 'Click Generate CI/CD Files' },
           { num: 5, text: 'Watch the output console — files are written to your project root when complete' },
         ],

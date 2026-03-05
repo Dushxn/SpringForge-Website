@@ -102,6 +102,12 @@ export default function AnimatedNav() {
             Documentation
           </Link>
           <Link
+            href="/about"
+            className="rounded-lg border border-dark-border px-4 py-2 text-sm font-medium text-content-secondary transition hover:border-accent hover:text-accent"
+          >
+            About
+          </Link>
+          <Link
             href="/#download"
             className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-black transition hover:bg-accent-dark"
           >
