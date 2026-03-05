@@ -265,22 +265,27 @@ features:
     image: '/audit.png',
     imageAlt: 'SpringForge Audit Log panel in IntelliJ IDEA',
     intro:
-      'Tracks every action the plugin performs — generations, validations, and explainability calls — with timing, status, and source details.',
+      'Tracks every action across all four plugin modules — code generation, debugging, quality analysis, and CI/CD operations — with timing, status, and source details.',
     subSections: [
       {
         title: 'What is tracked',
         steps: [
-          { num: 1, text: 'GENER — every CI/CD file generation with source (LOCAL / GitHub), artifacts, duration, and OK / Error status' },
-          { num: 2, text: 'VALID — every validation run against generated or existing files' },
-          { num: 3, text: 'EXPLA — every explainability / AI analysis call with duration and status' },
+          { num: 1, text: 'Generation — every CI/CD artifact generation (Dockerfile, Compose, GitHub Actions) with source (LOCAL / GITHUB), artifacts, files, duration, and OK / Error status' },
+          { num: 2, text: 'Code Gen — every code scaffolding request via Gemini with files written, duration, and OK / Error status' },
+          { num: 3, text: 'Runtime — every runtime error analysis call with duration and OK / Error status' },
+          { num: 4, text: 'Validation — every validation run against generated or existing CI/CD files with error / warning / info counts' },
+          { num: 5, text: 'Explainability — every AI explainability call with insight count, duration, and OK / Error status' },
         ],
       },
       {
         title: 'Summary statistics',
         steps: [
-          { num: 1, text: 'Generations — total count, success rate, average duration' },
-          { num: 2, text: 'Validations — total count, success rate, average duration' },
-          { num: 3, text: 'Explainability — total count, success rate, average duration' },
+          { num: 1, text: 'CI/CD Generation — total events, successes, failures, success rate' },
+          { num: 2, text: 'CI/CD Validation — total events, successes, failures, success rate' },
+          { num: 3, text: 'CI/CD Explainability — total events, successes, failures, success rate' },
+          { num: 4, text: 'Code Generation — total events, successes, failures, success rate' },
+          { num: 5, text: 'Quality Scan — total events, successes, failures, success rate' },
+          { num: 6, text: 'Runtime Analysis — total events, successes, failures, success rate' },
         ],
       },
       {
