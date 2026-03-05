@@ -10,17 +10,26 @@ import {
   useInView,
   useReducedMotion,
 } from 'framer-motion'
+import Lottie from 'lottie-react'
+import codeGenData from '@/public/lottie/code gen.json'
+import debugData   from '@/public/lottie/debug.json'
+import qualityData from '@/public/lottie/quality.json'
+import cicdData    from '@/public/lottie/cicd.json'
 import { features } from '@/lib/data'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const lottieSources: any[] = [codeGenData, debugData, qualityData, cicdData]
+
 interface FeatureCardProps {
-  icon: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  lottieData: any
   title: string
   desc: string
   index: number
   reduceMotion: boolean | null
 }
 
-function FeatureCard({ icon, title, desc, index, reduceMotion }: FeatureCardProps) {
+function FeatureCard({ lottieData, title, desc, index, reduceMotion }: FeatureCardProps) {
   const hoverProgress = useMotionValue(0)
   const iconY         = useMotionValue(0)
   const iconScale     = useMotionValue(1)
@@ -66,10 +75,14 @@ function FeatureCard({ icon, title, desc, index, reduceMotion }: FeatureCardProp
       />
 
       <motion.div
-        className="mb-4 text-3xl"
-        style={{ y: iconY, scale: iconScale, display: 'inline-block' }}
+        className="mb-4 inline-block"
+        style={{ y: iconY, scale: iconScale }}
       >
-        {icon}
+        <Lottie
+          animationData={lottieData}
+          loop
+          style={{ width: 52, height: 52 }}
+        />
       </motion.div>
       <h3 className="mb-2 font-semibold text-content-primary">{title}</h3>
       <p className="text-sm leading-relaxed text-content-secondary">{desc}</p>
@@ -122,7 +135,7 @@ export default function AnimatedFeatures({ version = 'N/A' }: { version?: string
           {features.map((f, i) => (
             <FeatureCard
               key={f.title}
-              icon={f.icon}
+              lottieData={lottieSources[i]}
               title={f.title}
               desc={f.desc}
               index={i}
