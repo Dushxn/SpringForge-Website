@@ -3,7 +3,7 @@ export interface Feature {
   title: string
   desc: string
 }
-
+// Centralized data definitions for features and stats used across the frontend
 export interface Stat {
   label: string
   numeric: number
