@@ -34,4 +34,12 @@ export class PluginService {
     }
     return result.rows[0].file_data;
   }
+
+  async logDownload(userId: number): Promise<void> {
+    const info = await this.getInfo();
+    await this.db.query(
+      `INSERT INTO download_logs (user_id, version) VALUES ($1, $2)`,
+      [userId, info.version],
+    );
+  }
 }

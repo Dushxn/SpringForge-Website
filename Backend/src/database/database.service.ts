@@ -12,6 +12,9 @@ export class DatabaseService implements OnModuleInit {
       port: parseInt(process.env.POSTGRES_PORT ?? '5432'),
       user: process.env.POSTGRES_USER ?? 'postgres',
       password: process.env.POSTGRES_PASSWORD ?? 'root',
+      ssl: process.env.POSTGRES_HOST?.includes('azure.com')
+        ? { rejectUnauthorized: false }
+        : undefined,
     };
   }
 
@@ -45,7 +48,27 @@ export class DatabaseService implements OnModuleInit {
   }
 
   private async initSchema() {
+    // Migrate: drop old user_feedback table that lacks user_id column
+    const colCheck = await this.pool.query(`
+      SELECT 1 FROM information_schema.columns
+      WHERE table_name = 'user_feedback' AND column_name = 'user_id'
+    `);
+    if (colCheck.rowCount === 0) {
+      await this.pool.query(`DROP TABLE IF EXISTS user_feedback`);
+      this.logger.log('Dropped legacy user_feedback table for migration');
+    }
+
     await this.pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id            SERIAL PRIMARY KEY,
+        full_name     VARCHAR(255) NOT NULL,
+        email         VARCHAR(255) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        organization  VARCHAR(255),
+        created_at    TIMESTAMPTZ  DEFAULT NOW(),
+        last_login    TIMESTAMPTZ
+      );
+
       CREATE TABLE IF NOT EXISTS plugin_releases (
         id            SERIAL PRIMARY KEY,
         version       VARCHAR(50)  NOT NULL,
@@ -57,11 +80,18 @@ export class DatabaseService implements OnModuleInit {
 
       CREATE TABLE IF NOT EXISTS user_feedback (
         id         SERIAL PRIMARY KEY,
-        name       VARCHAR(255),
-        email      VARCHAR(255),
-        message    TEXT         NOT NULL,
-        rating     INTEGER      CHECK (rating >= 1 AND rating <= 5),
+        user_id    INTEGER      NOT NULL REFERENCES users(id),
+        module     VARCHAR(100),
+        rating     INTEGER      NOT NULL CHECK (rating >= 1 AND rating <= 5),
+        comment    TEXT         NOT NULL,
         created_at TIMESTAMPTZ  DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS download_logs (
+        id          SERIAL PRIMARY KEY,
+        user_id     INTEGER      NOT NULL REFERENCES users(id),
+        version     VARCHAR(50),
+        downloaded_at TIMESTAMPTZ DEFAULT NOW()
       );
     `);
     this.logger.log('Database schema ready');

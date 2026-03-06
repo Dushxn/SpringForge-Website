@@ -1,6 +1,7 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Controller, Get, Res, UseGuards, Req } from '@nestjs/common';
 import { PluginService } from './plugin.service';
-import { Response } from 'express';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Response, Request } from 'express';
 
 @Controller('plugin')
 export class PluginController {
@@ -12,8 +13,11 @@ export class PluginController {
   }
 
   @Get('download')
-  async download(@Res() res: Response) {
+  @UseGuards(JwtAuthGuard)
+  async download(@Req() req: Request, @Res() res: Response) {
+    const userId = (req as any).user.id;
     const fileData = await this.pluginService.getFileData();
+    await this.pluginService.logDownload(userId);
     res.setHeader('Content-Type', 'application/zip');
     res.setHeader('Content-Disposition', 'attachment; filename="springforge-plugin.zip"');
     res.send(fileData);
