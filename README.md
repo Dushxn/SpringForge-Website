@@ -1,4 +1,4 @@
-# SpringForge Website
+# Spring Forge Website
 
 > **An Intelligent Spring Boot Development Ecosystem** — Official distribution website for the SpringForge IntelliJ IDEA plugin.
 
